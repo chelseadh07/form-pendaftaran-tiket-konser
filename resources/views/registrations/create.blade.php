@@ -194,7 +194,11 @@
                     @csrf
                     <div>
                         <label for="name">Full name</label>
-                        <input id="name" name="name" type="text" value="{{ old('name') }}" placeholder="Name as shown on your ID" autocomplete="name" required>
+                        <input id="name" name="name" type="text" value="{{ old('name') }}" placeholder="Name as shown on your ID" autocomplete="name" list="buyer-suggestions" required>
+                        <datalist id="buyer-suggestions">
+                            <option value="Elizabeth Nathania" label="elizabeth.nathania@ciputra.ac.id"></option>
+                            <option value="Haning Kumbara" label="haning.kumbara@ciputra.ac.id"></option>
+                        </datalist>
                         @error('name') <p class="field-error">{{ $message }}</p> @enderror
                     </div>
 
@@ -244,10 +248,27 @@
     </main>
 
     <script>
+        const buyerName = document.querySelector('#name');
+        const buyerEmail = document.querySelector('#email');
         const ticketType = document.querySelector('#ticket_type');
         const quantity = document.querySelector('#quantity');
         const total = document.querySelector('#total');
         const prices = { regular: 150000, vip: 350000 };
+        const suggestedEmails = {
+            'Elizabeth Nathania': 'elizabeth.nathania@ciputra.ac.id',
+            'Haning Kumbara': 'haning.kumbara@ciputra.ac.id',
+        };
+        const suggestedEmailValues = Object.values(suggestedEmails);
+
+        function updateEmailFromName() {
+            const suggestedEmail = suggestedEmails[buyerName.value.trim()];
+
+            if (suggestedEmail) {
+                buyerEmail.value = suggestedEmail;
+            } else if (suggestedEmailValues.includes(buyerEmail.value)) {
+                buyerEmail.value = '';
+            }
+        }
 
         function updateTotal() {
             const amount = prices[ticketType.value] * Number(quantity.value);
@@ -258,6 +279,7 @@
             }).format(amount);
         }
 
+        buyerName.addEventListener('input', updateEmailFromName);
         ticketType.addEventListener('change', updateTotal);
         quantity.addEventListener('change', updateTotal);
         updateTotal();

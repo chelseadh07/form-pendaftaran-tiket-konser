@@ -19,6 +19,13 @@ class RegistrationTest extends TestCase
             ->assertSee('NIGHTWAVE')
             ->assertSee('November 28, 2026')
             ->assertSee('The Obsidian Grand Ballroom, Central Jakarta')
+            ->assertSee('list="buyer-suggestions"', false)
+            ->assertSee('option value="Elizabeth Nathania"', false)
+            ->assertSee('option value="Haning Kumbara"', false)
+            ->assertSee('Elizabeth Nathania')
+            ->assertSee('Haning Kumbara')
+            ->assertSee("'Elizabeth Nathania': 'elizabeth.nathania@ciputra.ac.id'", false)
+            ->assertSee("'Haning Kumbara': 'haning.kumbara@ciputra.ac.id'", false)
             ->assertSee('Register now');
     }
 
