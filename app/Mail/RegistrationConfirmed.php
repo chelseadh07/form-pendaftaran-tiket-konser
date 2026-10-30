@@ -14,7 +14,7 @@ class RegistrationConfirmed extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Pendaftaran Tiket Berhasil - Nada di Tengah Kota',
+            subject: 'Successful '.config('concert.name').' Ticket Registration',
         );
     }
 
@@ -24,6 +24,7 @@ class RegistrationConfirmed extends Mailable
             view: 'emails.registration-confirmed',
             with: [
                 'registration' => $this->registration,
+                'concert' => config('concert'),
             ],
         );
     }

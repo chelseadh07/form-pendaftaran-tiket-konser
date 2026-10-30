@@ -16,8 +16,10 @@ class RegistrationTest extends TestCase
     {
         $this->get('/')
             ->assertOk()
-            ->assertSee('Nada di Tengah Kota')
-            ->assertSee('Daftar sekarang');
+            ->assertSee('NIGHTWAVE')
+            ->assertSee('November 28, 2026')
+            ->assertSee('The Obsidian Grand Ballroom, Central Jakarta')
+            ->assertSee('Register now');
     }
 
     public function test_valid_registration_is_saved_with_server_calculated_total(): void
@@ -84,6 +86,11 @@ class RegistrationTest extends TestCase
         $this->assertStringContainsString('Ayu Pratama', $html);
         $this->assertStringContainsString('KT-ABCD1234', $html);
         $this->assertStringContainsString('VIP', $html);
-        $this->assertStringContainsString('700.000', $html);
+        $this->assertStringContainsString('700,000', $html);
+        $this->assertStringContainsString('NIGHTWAVE', $html);
+        $this->assertStringContainsString('November 28, 2026', $html);
+        $this->assertStringContainsString('The Obsidian Grand Ballroom, Central Jakarta', $html);
+        $this->assertStringContainsString('Your tickets', $html);
+        $this->assertStringContainsString('Event schedule', $html);
     }
 }

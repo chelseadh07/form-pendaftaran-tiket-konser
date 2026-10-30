@@ -1,19 +1,21 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f4f1e9">
-    <title>Daftar Tiket | Sora Live</title>
+    <meta name="theme-color" content="#0b0811">
+    <title>{{ config('concert.name') }} Tickets | Night Concert</title>
     <style>
         :root {
-            color-scheme: light;
-            --ink: #20211f;
-            --muted: #77766f;
-            --paper: #f4f1e9;
-            --line: #dedbd2;
-            --coral: #e4553d;
-            --teal: #176e68;
+            color-scheme: dark;
+            --ink: #f5efff;
+            --muted: #aaa0b9;
+            --paper: #0b0811;
+            --line: #33283f;
+            --purple: #a968f2;
+            --purple-bright: #c18bff;
+            --surface: #110d19;
+            --input: #171121;
         }
 
         * { box-sizing: border-box; }
@@ -40,26 +42,26 @@
             overflow: hidden;
             padding: 36px clamp(28px, 5vw, 72px);
             color: #fffdf7;
-            background: #143331 url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1400&q=85') center / cover;
+            background: #120a1f url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1400&q=85') center / cover;
         }
 
         .poster::before {
             position: absolute;
             inset: 0;
             content: "";
-            background: linear-gradient(180deg, rgb(9 25 24 / 35%), rgb(9 25 24 / 14%) 38%, rgb(9 25 24 / 82%));
+            background: linear-gradient(180deg, rgb(15 5 28 / 48%), rgb(18 7 32 / 22%) 38%, rgb(10 5 18 / 94%));
         }
 
         .poster > * { position: relative; }
-        .wordmark { font-size: 15px; font-weight: 800; letter-spacing: 0.14em; }
-        .wordmark span { color: #ffb69e; }
+        .wordmark { font-size: 15px; font-weight: 800; letter-spacing: 0.18em; }
+        .wordmark span { color: var(--purple-bright); }
         .event-copy { max-width: 530px; padding: 80px 0 42px; }
         .eyebrow {
             display: inline-flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 20px;
-            color: #ffcfb8;
+            color: #d7b4ff;
             font-size: 11px;
             font-weight: 750;
             letter-spacing: 0.16em;
@@ -74,27 +76,28 @@
             font-weight: 400;
             line-height: 0.98;
         }
-        .event-copy p { max-width: 350px; margin: 22px 0 0; color: #e9e7dc; font-size: 15px; line-height: 1.7; }
-        .event-meta { display: flex; flex-wrap: wrap; gap: 26px; border-top: 1px solid rgb(255 255 255 / 35%); padding-top: 18px; }
-        .meta-label { display: block; margin-bottom: 6px; color: #d6d4c9; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
+        .event-copy p { max-width: 350px; margin: 22px 0 0; color: #e9e1f3; font-size: 15px; line-height: 1.7; }
+        .event-meta { display: flex; flex-wrap: wrap; gap: 26px; border-top: 1px solid rgb(255 255 255 / 28%); padding-top: 18px; }
+        .meta-label { display: block; margin-bottom: 6px; color: #c9bdd8; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
         .meta-value { font-size: 14px; font-weight: 650; }
 
-        .form-side { display: flex; align-items: center; justify-content: center; padding: 58px clamp(26px, 6vw, 90px); }
+        .form-side { display: flex; align-items: center; justify-content: center; padding: 58px clamp(26px, 6vw, 90px); background: var(--paper); }
         .form-wrap { width: min(100%, 540px); }
         .form-heading { margin-bottom: 30px; }
-        .form-heading .eyebrow { margin-bottom: 12px; color: var(--teal); }
+        .form-heading .eyebrow { margin-bottom: 12px; color: var(--purple-bright); }
         h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(34px, 4vw, 48px); font-weight: 400; line-height: 1.08; }
         .intro { margin: 12px 0 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
 
         .success {
             margin-bottom: 24px;
-            border-left: 3px solid var(--teal);
+            border-left: 3px solid var(--purple);
             padding: 14px 16px;
-            background: #e4ede6;
+            background: #1b1228;
+            color: #e8dcf7;
             font-size: 14px;
             line-height: 1.6;
         }
-        .success strong { display: block; color: #155b54; }
+        .success strong { display: block; color: #d5b2ff; }
         .success span { font-weight: 700; letter-spacing: 0.05em; }
         form { display: grid; gap: 18px; }
         .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -102,20 +105,20 @@
         input, select {
             width: 100%;
             min-height: 48px;
-            border: 1px solid #d1cec5;
+            border: 1px solid #40334f;
             border-radius: 3px;
             padding: 0 13px;
-            background: #fbfaf6;
+            background: var(--input);
             color: var(--ink);
             font: inherit;
             font-size: 14px;
         }
-        input::placeholder { color: #99968c; }
-        input:focus, select:focus { border-color: var(--teal); outline: 3px solid rgb(23 110 104 / 14%); }
-        .field-error { margin: 6px 0 0; color: #b33729; font-size: 12px; }
+        input::placeholder { color: #827891; }
+        input:focus, select:focus { border-color: var(--purple-bright); outline: 3px solid rgb(169 104 242 / 20%); }
+        .field-error { margin: 6px 0 0; color: #ff8caa; font-size: 12px; }
         .ticket-summary { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); padding: 16px 0 2px; font-size: 13px; }
         .ticket-summary span { color: var(--muted); }
-        .ticket-summary strong { color: var(--teal); font-size: 18px; }
+        .ticket-summary strong { color: var(--purple-bright); font-size: 18px; }
         button {
             display: flex;
             min-height: 54px;
@@ -124,7 +127,7 @@
             border: 0;
             border-radius: 3px;
             padding: 0 18px;
-            background: var(--coral);
+            background: #8e4ed6;
             color: white;
             cursor: pointer;
             font: inherit;
@@ -132,8 +135,8 @@
             font-weight: 750;
             transition: background 160ms ease, transform 160ms ease;
         }
-        button:hover { transform: translateY(-1px); background: #c94732; }
-        button:focus-visible { outline: 3px solid rgb(228 85 61 / 35%); outline-offset: 3px; }
+        button:hover { transform: translateY(-1px); background: #a968f2; }
+        button:focus-visible { outline: 3px solid rgb(193 139 255 / 45%); outline-offset: 3px; }
         .note { margin: 13px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; text-align: center; }
 
         @media (max-width: 820px) {
@@ -158,70 +161,70 @@
 </head>
 <body>
     <main class="page">
-        <section class="poster" aria-label="Informasi acara Sora Live">
-            <div class="wordmark">SORA<span> / LIVE</span></div>
+        <section class="poster" aria-label="{{ config('concert.name') }} event information">
+            <div class="wordmark">NIGHTWAVE<span> / LIVE</span></div>
             <div class="event-copy">
-                <div class="eyebrow">Satu malam, banyak cerita</div>
-                <h1>Nada di Tengah Kota</h1>
-                <p>Temui teman-teman, nyanyikan lagu favoritmu, dan rayakan malam bersama.</p>
+                <div class="eyebrow">One night. A thousand stories.</div>
+                <h1>{{ config('concert.name') }}</h1>
+                <p>Step into an unforgettable night of music, violet lights, and electric energy.</p>
             </div>
             <div class="event-meta">
-                <div><span class="meta-label">Tanggal</span><span class="meta-value">28 November 2026</span></div>
-                <div><span class="meta-label">Lokasi</span><span class="meta-value">Taman Ismail Marzuki, Jakarta</span></div>
+                <div><span class="meta-label">Date</span><span class="meta-value">{{ config('concert.date') }}</span></div>
+                <div><span class="meta-label">Venue</span><span class="meta-value">{{ config('concert.location') }}</span></div>
             </div>
         </section>
 
         <section class="form-side">
             <div class="form-wrap">
                 <div class="form-heading">
-                    <div class="eyebrow">Pendaftaran tiket</div>
-                    <h2>Amankan tempatmu.</h2>
-                    <p class="intro">Isi data berikut untuk memesan tiket. Konfirmasi pendaftaran akan muncul setelah formulir dikirim.</p>
+                    <div class="eyebrow">Ticket registration</div>
+                    <h2>Claim your place.</h2>
+                    <p class="intro">Choose your ticket and get ready for an unforgettable night. Your registration confirmation will be sent by email.</p>
                 </div>
 
                 @if (session('registration_reference'))
                     <div class="success" role="status">
-                        <strong>Pendaftaran berhasil, {{ session('registration_name') }}!</strong>
-                        Nomor referensimu: <span>{{ session('registration_reference') }}</span>
-                        <br>Rincian pendaftaran juga dikirim ke email yang kamu daftarkan.
+                        <strong>Registration complete, {{ session('registration_name') }}!</strong>
+                        Your reference: <span>{{ session('registration_reference') }}</span>
+                        <br>Your registration details have also been sent to your email.
                     </div>
                 @endif
 
                 <form method="POST" action="{{ route('registrations.store') }}">
                     @csrf
                     <div>
-                        <label for="name">Nama lengkap</label>
-                        <input id="name" name="name" type="text" value="{{ old('name') }}" placeholder="Nama sesuai identitas" autocomplete="name" required>
+                        <label for="name">Full name</label>
+                        <input id="name" name="name" type="text" value="{{ old('name') }}" placeholder="Name as shown on your ID" autocomplete="name" required>
                         @error('name') <p class="field-error">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="field-grid">
                         <div>
-                            <label for="email">Email</label>
-                            <input id="email" name="email" type="email" value="{{ old('email') }}" placeholder="nama@email.com" autocomplete="email" required>
+                            <label for="email">Email address</label>
+                            <input id="email" name="email" type="email" value="{{ old('email') }}" placeholder="name@example.com" autocomplete="email" required>
                             @error('email') <p class="field-error">{{ $message }}</p> @enderror
                         </div>
                         <div>
-                            <label for="phone">Nomor WhatsApp</label>
-                            <input id="phone" name="phone" type="tel" value="{{ old('phone') }}" placeholder="08xxxxxxxxxx" autocomplete="tel" required>
+                            <label for="phone">WhatsApp number</label>
+                            <input id="phone" name="phone" type="tel" value="{{ old('phone') }}" placeholder="+62 8xxxxxxxxxx" autocomplete="tel" required>
                             @error('phone') <p class="field-error">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
                     <div class="field-grid">
                         <div>
-                            <label for="ticket_type">Jenis tiket</label>
+                            <label for="ticket_type">Ticket type</label>
                             <select id="ticket_type" name="ticket_type" required>
-                                <option value="regular" @selected(old('ticket_type', 'regular') === 'regular')>Regular · Rp150.000</option>
-                                <option value="vip" @selected(old('ticket_type') === 'vip')>VIP · Rp350.000</option>
+                                <option value="regular" @selected(old('ticket_type', 'regular') === 'regular')>Regular · IDR 150,000</option>
+                                <option value="vip" @selected(old('ticket_type') === 'vip')>VIP · IDR 350,000</option>
                             </select>
                             @error('ticket_type') <p class="field-error">{{ $message }}</p> @enderror
                         </div>
                         <div>
-                            <label for="quantity">Jumlah tiket</label>
+                            <label for="quantity">Number of tickets</label>
                             <select id="quantity" name="quantity" required>
                                 @for ($quantity = 1; $quantity <= 4; $quantity++)
-                                    <option value="{{ $quantity }}" @selected((int) old('quantity', 1) === $quantity)>{{ $quantity }} tiket</option>
+                                    <option value="{{ $quantity }}" @selected((int) old('quantity', 1) === $quantity)>{{ $quantity }} {{ $quantity === 1 ? 'ticket' : 'tickets' }}</option>
                                 @endfor
                             </select>
                             @error('quantity') <p class="field-error">{{ $message }}</p> @enderror
@@ -229,13 +232,13 @@
                     </div>
 
                     <div class="ticket-summary" aria-live="polite">
-                        <span>Total pembayaran</span>
-                        <strong id="total">Rp150.000</strong>
+                        <span>Order total</span>
+                        <strong id="total">IDR 150,000</strong>
                     </div>
 
-                    <button type="submit"><span>Daftar sekarang</span><span aria-hidden="true">→</span></button>
+                    <button type="submit"><span>Register now</span><span aria-hidden="true">→</span></button>
                 </form>
-                <p class="note">Harga tertera per tiket. Maksimal pemesanan 4 tiket dalam satu pendaftaran.</p>
+                <p class="note">Prices are per ticket. A maximum of 4 tickets may be ordered per registration.</p>
             </div>
         </section>
     </main>
@@ -248,7 +251,7 @@
 
         function updateTotal() {
             const amount = prices[ticketType.value] * Number(quantity.value);
-            total.textContent = new Intl.NumberFormat('id-ID', {
+            total.textContent = new Intl.NumberFormat('en-ID', {
                 style: 'currency',
                 currency: 'IDR',
                 maximumFractionDigits: 0,
