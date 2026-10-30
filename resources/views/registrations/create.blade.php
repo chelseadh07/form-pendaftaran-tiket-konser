@@ -183,6 +183,7 @@
                     <div class="success" role="status">
                         <strong>Pendaftaran berhasil, {{ session('registration_name') }}!</strong>
                         Nomor referensimu: <span>{{ session('registration_reference') }}</span>
+                        <br>Rincian pendaftaran juga dikirim ke email yang kamu daftarkan.
                     </div>
                 @endif
 

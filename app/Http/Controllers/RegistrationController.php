@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RegistrationConfirmed;
 use App\Models\ConcertRegistration;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -39,6 +41,8 @@ class RegistrationController extends Controller
             'unit_price' => $unitPrice,
             'total_price' => $unitPrice * $validated['quantity'],
         ]);
+
+        Mail::to($registration->email)->send(new RegistrationConfirmed($registration));
 
         return redirect()->route('registrations.create')->with([
             'registration_reference' => $registration->reference,
