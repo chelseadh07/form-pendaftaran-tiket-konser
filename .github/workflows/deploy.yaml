@@ -132,10 +132,15 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         port: 22
         script: |
+          set -e
           cd /home/cloudcomp-nightwave/htdocs/nightwave.cloudcomp.my.id
+          if [ -f package-lock.json ] && ! git ls-files --error-unmatch package-lock.json >/dev/null 2>&1; then
+            git stash push --include-untracked --message "Preserve local package-lock before deploy" -- package-lock.json
+          fi
           git pull origin main
           rm -rf vendor
           tar -xzf vendor.tar.gz
           rm -f vendor.tar.gz
+          rm -f bootstrap/cache/packages.php bootstrap/cache/services.php
           php artisan migrate --force
           php artisan config:cache
